@@ -22,6 +22,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
   process.env.FRONTEND_URL,
+  'https://task-manager-woad-five.vercel.app',
   'https://task-manager-raees-j.vercel.app',
   'https://task-manager-git-main-raees-j.vercel.app',
   'https://task-manager-raees-js-projects.vercel.app'
