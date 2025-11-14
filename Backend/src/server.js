@@ -163,13 +163,19 @@ mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-  console.log('Connected to MongoDB');
-  server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-    console.log('WebSocket server ready for connections');
+  console.log('✅ Connected to MongoDB successfully');
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server listening on port ${PORT}`);
+    console.log('🔌 WebSocket server ready for connections');
+    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
   });
 }).catch((err) => {
-  console.error('MongoDB connection error:', err);
+  console.error('❌ MongoDB connection error:', err.message);
+  console.error('\n🔧 Troubleshooting steps:');
+  console.error('1. Check if MONGO_URI environment variable is set');
+  console.error('2. Verify MongoDB Atlas IP whitelist includes 0.0.0.0/0');
+  console.error('3. Ensure database user has correct permissions');
+  console.error('4. Check if MongoDB cluster is running\n');
   process.exit(1);
 });
 
