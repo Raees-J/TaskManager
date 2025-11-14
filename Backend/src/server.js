@@ -18,9 +18,18 @@ const app = express();
 const server = http.createServer(app);
 
 // Socket.IO setup with CORS
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  process.env.FRONTEND_URL,
+  'https://task-manager-raees-j.vercel.app',
+  'https://task-manager-git-main-raees-j.vercel.app',
+  'https://task-manager-raees-js-projects.vercel.app'
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -135,7 +144,23 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Serve static files from uploads directory
