@@ -109,8 +109,11 @@ const MessageBubble = styled.div`
   color: ${(props) => (props.$isUser ? "white" : "#000")};
   padding: 12px 16px;
   border-radius: 16px;
-  max-width: 70%;
+  max-width: 75%;
   word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
